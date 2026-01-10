@@ -1,0 +1,10 @@
+torch
+torchvision
+facenet-pytorch
+Pillow
+faiss-cpu
+matplotlib
+seaborn
+numpy
+pandas
+Flask

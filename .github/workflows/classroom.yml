@@ -1,0 +1,307 @@
+name: Autograding Tests
+'on':
+  - push
+  - repository_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download multi_image_identities.tar
+        run: |
+          echo "DOWNLOADING DATA SOURCES...saving files to './ironclad/storage'"
+          mkdir -p ironclad/storage
+          #curl -o ironclad/storage/multi_image_identities.tar "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?download=1"
+          wget --no-check-certificate \
+            "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?download=1" \
+            -O ironclad/storage/multi_image_identities.tar
+            
+          #  "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?e=UPnmD3" \
+          #  -O ironclad/storage/multi_image_identities.tar 
+          #
+            
+      - name: Extract multi_image_identities.tar
+        run: |
+          if [ -f ironclad/storage/multi_image_identities.tar ]; then
+            tar -xvf ironclad/storage/multi_image_identities.tar -C ironclad/storage/
+            rm ironclad/storage/multi_image_identities.tar
+          else
+            echo "Archive not found or invalid."
+            exit 1
+          fi
+      - name: Install dependencies
+        run: pip install --user -r ironclad/requirements.txt
+
+      # === INDIVIDUAL TESTS ===
+
+      - name: test_initialization_euclidean
+        id: test_initialization_euclidean
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_initialization_euclidean
+          command: python test/grade_runner.py test_initialization_euclidean 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_initialization_invalid_metric
+        id: test_initialization_invalid_metric
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_initialization_invalid_metric
+          command: python test/grade_runner.py test_initialization_invalid_metric 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_embeddings_and_get_metadata
+        id: test_add_embeddings_and_get_metadata
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_embeddings_and_get_metadata
+          command: python test/grade_runner.py test_add_embeddings_and_get_metadata 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_embeddings_dimension_mismatch
+        id: test_add_embeddings_dimension_mismatch
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_embeddings_dimension_mismatch
+          command: python test/grade_runner.py test_add_embeddings_dimension_mismatch 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_embeddings_count_mismatch
+        id: test_add_embeddings_count_mismatch
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_embeddings_count_mismatch
+          command: python test/grade_runner.py test_add_embeddings_count_mismatch 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_get_metadata_index_out_of_bounds
+        id: test_get_metadata_index_out_of_bounds
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_get_metadata_index_out_of_bounds
+          command: python test/grade_runner.py test_get_metadata_index_out_of_bounds 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_save_and_load
+        id: test_save_and_load
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_save_and_load
+          command: python test/grade_runner.py test_save_and_load 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_cosine_normalization
+        id: test_cosine_normalization
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_cosine_normalization
+          command: python test/grade_runner.py test_cosine_normalization 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_initialization
+        id: test_initialization
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_initialization
+          command: python test/grade_runner.py test_initialization 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_get_metadata_valid_and_invalid
+        id: test_get_metadata_valid_and_invalid
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_get_metadata_valid_and_invalid
+          command: python test/grade_runner.py test_get_metadata_valid_and_invalid 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_index_search_returns_results
+        id: test_index_search_returns_results
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_index_search_returns_results
+          command: python test/grade_runner.py test_index_search_returns_results 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_embeddings_dimension_mismatch_LSH
+        id: test_add_embeddings_dimension_mismatch_LSH
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_embeddings_dimension_mismatch
+          command: python test/grade_runner.py test_add_embeddings_dimension_mismatch 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_embeddings_count_mismatch_LSH
+        id: test_add_embeddings_count_mismatch_LSH
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_embeddings_count_mismatch
+          command: python test/grade_runner.py test_add_embeddings_count_mismatch 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_save_and_load_LSH
+        id: test_save_and_load_LSH
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_save_and_load
+          command: python test/grade_runner.py test_save_and_load 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_success
+        id: test_add_success
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_success
+          command: python test/grade_runner.py test_add_success 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_missing_image
+        id: test_add_missing_image
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_missing_image
+          command: python test/grade_runner.py test_add_missing_image 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_missing_name
+        id: test_add_missing_name
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_missing_name
+          command: python test/grade_runner.py test_add_missing_name 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_add_duplicate_name
+        id: test_add_duplicate_name
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_add_duplicate_name
+          command: python test/grade_runner.py test_add_duplicate_name 1
+          timeout: 20
+          max-score: 5
+
+      - name: test_euclidean_search_returns_correct_index
+        id: test_euclidean_search_returns_correct_index
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_euclidean_search_returns_correct_index
+          command: python test/grade_runner.py test_euclidean_search_returns_correct_index 2
+          timeout: 20
+          max-score: 5
+
+      - name: test_cosine_search_returns_correct_index
+        id: test_cosine_search_returns_correct_index
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_cosine_search_returns_correct_index
+          command: python test/grade_runner.py test_cosine_search_returns_correct_index 2
+          timeout: 20
+          max-score: 5
+
+      - name: test_dot_product_search_returns_correct_index
+        id: test_dot_product_search_returns_correct_index
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_dot_product_search_returns_correct_index
+          command: python test/grade_runner.py test_dot_product_search_returns_correct_index 2
+          timeout: 20
+          max-score: 5
+
+      - name: test_identify_success
+        id: test_identify_success
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_identify_success
+          command: python test/grade_runner.py test_identify_success 2
+          timeout: 20
+          max-score: 5
+
+      - name: test_identify_missing_image
+        id: test_identify_missing_image
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_identify_missing_image
+          command: python test/grade_runner.py test_identify_missing_image 2
+          timeout: 20
+          max-score: 5
+
+      - name: test_identify_invalid_k
+        id: test_identify_invalid_k
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: test_identify_invalid_k
+          command: python test/grade_runner.py test_identify_invalid_k 2
+          timeout: 20
+          max-score: 5
+      # === REPORTER ===
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TEST_INITIALIZATION_EUCLIDEAN_RESULTS: ${{ steps.test_initialization_euclidean.outputs.result }}
+          TEST_INITIALIZATION_INVALID_METRIC_RESULTS: ${{ steps.test_initialization_invalid_metric.outputs.result }}
+          TEST_ADD_EMBEDDINGS_AND_GET_METADATA_RESULTS: ${{ steps.test_add_embeddings_and_get_metadata.outputs.result }}
+          TEST_ADD_EMBEDDINGS_DIMENSION_MISMATCH_RESULTS: ${{ steps.test_add_embeddings_dimension_mismatch.outputs.result }}
+          TEST_ADD_EMBEDDINGS_COUNT_MISMATCH_RESULTS: ${{ steps.test_add_embeddings_count_mismatch.outputs.result }}
+          TEST_GET_METADATA_INDEX_OUT_OF_BOUNDS_RESULTS: ${{ steps.test_get_metadata_index_out_of_bounds.outputs.result }}
+          TEST_SAVE_AND_LOAD_RESULTS: ${{ steps.test_save_and_load.outputs.result }}
+          TEST_COSINE_NORMALIZATION_RESULTS: ${{ steps.test_cosine_normalization.outputs.result }}
+          TEST_INITIALIZATION_RESULTS: ${{ steps.test_initialization.outputs.result }}
+          TEST_GET_METADATA_VALID_AND_INVALID_RESULTS: ${{ steps.test_get_metadata_valid_and_invalid.outputs.result }}
+          TEST_INDEX_SEARCH_RETURNS_RESULTS_RESULTS: ${{ steps.test_index_search_returns_results.outputs.result }}
+          TEST_ADD_SUCCESS_RESULTS: ${{ steps.test_add_success.outputs.result }}
+          TEST_ADD_MISSING_IMAGE_RESULTS: ${{ steps.test_add_missing_image.outputs.result }}
+          TEST_ADD_MISSING_NAME_RESULTS: ${{ steps.test_add_missing_name.outputs.result }}
+          TEST_ADD_DUPLICATE_NAME_RESULTS: ${{ steps.test_add_duplicate_name.outputs.result }}
+          TEST_EUCLIDEAN_SEARCH_RETURNS_CORRECT_INDEX_RESULTS: ${{ steps.test_euclidean_search_returns_correct_index.outputs.result }}
+          TEST_COSINE_SEARCH_RETURNS_CORRECT_INDEX_RESULTS: ${{ steps.test_cosine_search_returns_correct_index.outputs.result }}
+          TEST_DOT_PRODUCT_SEARCH_RETURNS_CORRECT_INDEX_RESULTS: ${{ steps.test_dot_product_search_returns_correct_index.outputs.result }}
+          TEST_IDENTIFY_SUCCESS_RESULTS: ${{ steps.test_identify_success.outputs.result }}
+          TEST_IDENTIFY_MISSING_IMAGE_RESULTS: ${{ steps.test_identify_missing_image.outputs.result }}
+          TEST_IDENTIFY_INVALID_K_RESULTS: ${{ steps.test_identify_invalid_k.outputs.result }}
+        with:
+          runners: test_initialization_euclidean,
+            test_initialization_invalid_metric,
+            test_add_embeddings_and_get_metadata,
+            test_add_embeddings_dimension_mismatch,
+            test_add_embeddings_count_mismatch,
+            test_get_metadata_index_out_of_bounds,
+            test_save_and_load,
+            test_cosine_normalization,
+            test_initialization,
+            test_get_metadata_valid_and_invalid,
+            test_index_search_returns_results,
+            test_add_success,
+            test_add_missing_image,
+            test_add_missing_name,
+            test_add_duplicate_name,
+            test_euclidean_search_returns_correct_index,
+            test_cosine_search_returns_correct_index,
+            test_dot_product_search_returns_correct_index,
+            test_identify_success,
+            test_identify_missing_image,
+            test_identify_invalid_k
