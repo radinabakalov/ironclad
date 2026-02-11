@@ -20,26 +20,18 @@ jobs:
         run: |
           echo "DOWNLOADING DATA SOURCES...saving files to './ironclad/storage'"
           mkdir -p ironclad/storage
-          #curl -o ironclad/storage/multi_image_identities.tar "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?download=1"
           wget --no-check-certificate \
-            "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?download=1" \
+            "https://www.dropbox.com/scl/fi/2xt7815a9un3daau68ns4/multi_image_identities.tar?rlkey=68oj82dqyhj0aa7unbuyo3uc9&st=vtl5s0da&dl=1" \
             -O ironclad/storage/multi_image_identities.tar
-            
-          #  "https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/asedigh1_jh_edu/EeccqLGmwIRArU1HFUcKoUUBHyMeI2C-3NqSicbDIVd9DQ?e=UPnmD3" \
-          #  -O ironclad/storage/multi_image_identities.tar 
-          #
-            
+
       - name: Extract multi_image_identities.tar
         run: |
-          if [ -f ironclad/storage/multi_image_identities.tar ]; then
-            tar -xvf ironclad/storage/multi_image_identities.tar -C ironclad/storage/
-            rm ironclad/storage/multi_image_identities.tar
-          else
-            echo "Archive not found or invalid."
-            exit 1
-          fi
+          tar -xvf ironclad/storage/multi_image_identities.tar -C ironclad/storage/
+          rm ironclad/storage/multi_image_identities.tar
+
       - name: Install dependencies
         run: pip install --user -r ironclad/requirements.txt
+
 
       # === INDIVIDUAL TESTS ===
 
