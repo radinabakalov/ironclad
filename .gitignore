@@ -1,1 +1,9 @@
 ironclad/storage
+
+.venv/
+__pycache__/
+*.pyc
+multi_image_identities/
+
+.DS_Store
+**/.DS_Store
