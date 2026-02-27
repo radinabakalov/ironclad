@@ -1,9 +1,22 @@
 ironclad/storage
 
 .venv/
+
 __pycache__/
+
 *.pyc
+
 multi_image_identities/
 
+# Mac junk
 .DS_Store
 **/.DS_Store
+
+# Analysis result files (large / regenerable)
+analysis/*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+.venv/
