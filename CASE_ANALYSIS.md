@@ -258,7 +258,7 @@ This experiment used only 51 identities (those with 10 images), which may not be
 
 ---
 
-## Uncertainty Estimation and Improvement Strategy
+## Additional Analysis: Uncertainty Estimation and Improvement Strategy
 
 *Which identities does the system struggle with, and can query-time augmentation improve performance?*
 
