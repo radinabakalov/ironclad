@@ -6,15 +6,22 @@ This project evaluates key design trade-offs for deploying a face retrieval syst
 
 ```
 ├── analysis/
-│   ├── figures/             # Generated visualizations
-│   ├── task1.ipynb          # Model selection (VGG vs CASIA)
-│   ├── task2.ipynb          # Face detection preprocessing + indexing strategies
-│   ├── task3.ipynb          # Top-N optimization
-│   ├── task4.ipynb          # Gallery size optimization
-│   └── task5.ipynb          # Uncertainty estimation
-├── ironclad/                # Core system modules
-├── multi_image_identities/  # Dataset (not included in repo)
-├── CASE_ANALYSIS.md         # Full analysis report
+│   ├── figures/                   
+│   ├── task1.ipynb                
+│   ├── task2.ipynb                
+│   ├── task3.ipynb                
+│   ├── task4.ipynb                
+│   └── task5.ipynb                
+├── ironclad/
+│   ├── modules/                   # Embedding + retrieval implementations
+│   ├── app.py
+│   └── requirements.txt
+├── test/                          # Unit tests
+├── multi_image_identities/        # Dataset (not included in repo)
+├── CASE_ANALYSIS.md               # Case analysis report
+├── ANALYSIS_DESIGN_ASSIGNMENT.md
+├── IMPLEMENTATION_ASSIGNMENT.md
+├── setup.sh
 └── README.md
 ```
 
